@@ -13,6 +13,7 @@
 using namespace QXlsx;
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -198,6 +199,7 @@ RichString MainWindow::Cell_format(QString phrase1, QString signalname, QString 
 
 void MainWindow::Exceledit_with_function(int page_number, QString Page_name_, QString input_path, QString output_path)
 {
+    QXlsx::Document cell_excel_file;
     QFile file(input_path);
 
     Format italic;
@@ -233,10 +235,10 @@ void MainWindow::Exceledit_with_function(int page_number, QString Page_name_, QS
                     line_number++;
 
                     if (input_path.contains("input",Qt::CaseInsensitive))
-                        cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[10].remove("\"")));
+                    {cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[10].remove("\"")));}
 
                     else
-                        cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[9].remove("\"")));
+                    {cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[9].remove("\"")));}
 
                     line_number++;
 
@@ -256,8 +258,6 @@ void MainWindow::Exceledit_with_function(int page_number, QString Page_name_, QS
                         cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the cycle time", linelist[9].remove("\"")));
                         line_number++;
                     }
-
-                    line_number++;
                     cell_excel_file.saveAs(output_path);
                 }
             }
