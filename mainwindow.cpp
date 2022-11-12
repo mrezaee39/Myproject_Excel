@@ -102,7 +102,7 @@ int signal_number = 0 ;
 
 
     RichString signal;
-    QString str;
+    QString str;//
     str.setNum(signal_number);
     signal.addFragment( str,plain);
     //excel_file.write(line_number,1,str);
@@ -179,3 +179,89 @@ int signal_number = 0 ;
 }
 }
 }
+
+
+
+
+RichString MainWindow::Cell_format(QString phrase1, QString signalname, QString phrase3, QString phrase4)
+{
+    Format italic;
+    italic.setFontItalic(true);
+    Format plain;
+    RichString cell_format;
+    cell_format.addFragment(phrase1,plain);
+    cell_format.addFragment(signalname, italic);
+    cell_format.addFragment(phrase3,plain);
+    cell_format.addFragment(phrase4,plain);
+    return cell_format;
+}
+
+void MainWindow::Exceledit_with_function(int page_number, QString Page_name_, QString input_path, QString output_path)
+{
+    QFile file(input_path);
+
+    Format italic;
+    italic.setFontItalic(true);
+    Format plain;
+
+    cell_excel_file.addSheet(Page_name_);
+
+    if (file.exists()){
+        qDebug()<<"the method file exist";
+        file.open(QFile::ReadOnly);
+        QTextStream stream(&file);
+        int line_number = 1;
+
+
+        while(!stream.atEnd()){
+
+            QString line;
+            QStringList linelist;
+            line = stream.readLine();
+            linelist=line.split(",");
+
+            if(linelist[page_number].remove("\"")=="x"){///////////////////////////////////////////////////////////////#########################################################
+                {
+
+
+                    if (input_path.contains("input",Qt::CaseInsensitive))
+                    {cell_excel_file.write(line_number,1,Cell_format("",Page_name_, " component shall receive the input signal", linelist[0].remove("\"")));}
+
+                    else
+                    {cell_excel_file.write(line_number,1,Cell_format("",Page_name_, " component shall send the output signal ", linelist[0].remove("\"")));}
+
+                    line_number++;
+
+                    if (input_path.contains("input",Qt::CaseInsensitive))
+                        cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[10].remove("\"")));
+
+                    else
+                        cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the Data Type", linelist[9].remove("\"")));
+
+                    line_number++;
+
+                    line_number++;
+                    cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the unit", linelist[5].remove("\"")));
+                    line_number++;
+                    cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the resolution", "0.001"));
+                    line_number++;
+                    cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the max value", linelist[8].remove("\"")));
+                    line_number++;
+                    cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the min value", linelist[7].remove("\"")));
+                    line_number++;
+                    cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the default value", "XX"));
+                    line_number++;
+                    if (input_path.contains("input",Qt::CaseInsensitive))
+                    {
+                        cell_excel_file.write(line_number,1,Cell_format("the signal",linelist[0].remove("\""), "shall have the cycle time", linelist[9].remove("\"")));
+                        line_number++;
+                    }
+
+                    line_number++;
+                    cell_excel_file.saveAs(output_path);
+                }
+            }
+        }
+    }
+}
+

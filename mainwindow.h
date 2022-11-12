@@ -13,6 +13,8 @@
 #include <xlsxrichstring.h>
 #include <xlsxworkbook.h>
 
+QXlsx::Document cell_excel_file;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -38,6 +40,8 @@ public:
       //             ,int w, int x, int y, int z, int aa,int bb,int cc, int dd, int ee, int ff);*/
 
     void Exceledit(int page,QString Page_name, QString output_xlsx_path, QString input_csv_path);
+    QXlsx::RichString  Cell_format(QString phrase1, QString signlaname, QString phrase3, QString phrase4);
+    void Exceledit_with_function(int page1, QString Page_name1, QString input_csv_path1, QString output_xlsx_path1);
 
 
 
