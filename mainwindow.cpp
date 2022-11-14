@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Exceledit("LKA","/home/mohammad/BBA.xlsx",":/3_input_LKA.csv");
      Exceledit(LKA,"LKA","/home/mohammad/ABB.xlsx",":/InPut.csv");
+    Exceledit_with_function(LKA,"LKA",":/InPut.csv","/home/mohammad/ACC.xlsx");
 
        ui->label->setText("The Projekt is DONE");
         qDebug()<<"enum : "<<LKA;
@@ -199,12 +200,14 @@ RichString MainWindow::Cell_format(QString phrase1, QString signalname, QString 
 
 void MainWindow::Exceledit_with_function(int page_number, QString Page_name_, QString input_path, QString output_path)
 {
-    QXlsx::Document cell_excel_file;
+
     QFile file(input_path);
 
-    Format italic;
+ Format italic;
+ Format plain;
+
     italic.setFontItalic(true);
-    Format plain;
+
 
     cell_excel_file.addSheet(Page_name_);
 

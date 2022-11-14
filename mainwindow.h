@@ -50,5 +50,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QXlsx::Document cell_excel_file;
+
+
+
 };
 #endif // MAINWINDOW_H
